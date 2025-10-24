@@ -1,0 +1,6 @@
+/root/2xko/backend/src/main/java/com/example/twoxko/TwoxkoApplication.java
+/root/2xko/backend/src/main/java/com/example/twoxko/controller/PlayerController.java
+/root/2xko/backend/src/main/java/com/example/twoxko/model/Match.java
+/root/2xko/backend/src/main/java/com/example/twoxko/model/PlayerResponse.java
+/root/2xko/backend/src/main/java/com/example/twoxko/model/Winner.java
+/root/2xko/backend/src/main/java/com/example/twoxko/service/PlayerService.java
