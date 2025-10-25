@@ -110,6 +110,11 @@ button:hover {
   margin-top: 4px;
 }
 
+.character:hover img, .fuse:hover img {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.4));
+}
+
 .winner-glow {
   border: 2px solid gold;
   box-shadow: 0 0 10px gold;
