@@ -59,12 +59,17 @@ function renderMatchCard(match, curPlayer) {
   const p1Highlight = match.winner === "P1" ? "winner-glow" : "";
   const p2Highlight = match.winner === "P2" ? "winner-glow" : "";
 
+  // "Diamond 3" -> "diamond3"
+  const p1RankFormatted = (match.p1Rank || "").split(" ").map(word => word.charAt(0).toLowerCase() + word.slice(1).toLowerCase()).join("");
+  const p2RankFormatted = (match.p2Rank || "").split(" ").map(word => word.charAt(0).toLowerCase() + word.slice(1).toLowerCase()).join("");
   return `
     <div class="match-card">
       <p>
-        <strong>${match.p1RiotId} (${match.p1Rank || "Unranked"})</strong>
+        <strong>${match.p1RiotId}</strong>
+        <img src="assets/ranks/${p1RankFormatted}.webp" alt="${p1RankFormatted}" title="${p1RankFormatted}">
         vs
-        <strong>${match.p2RiotId} (${match.p2Rank || "Unranked"})</strong>
+        <strong>${match.p2RiotId}</strong>
+        <img src="assets/ranks/${p2RankFormatted}.webp" alt="${p2RankFormatted}" title="${p2RankFormatted}">
       </p>
       <div class="teams">
         <div class="team ${p1Highlight}">
@@ -95,8 +100,7 @@ function renderTeam(teamMembers, fuseName) {
       <span>${member}</span>
       </div>
     `;}).join("");
-  
-  
+
   // Wiki: "Double Down" -> "Double_Down"
   const fuseFormatted = fuseName.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join("_");
   const fuseWikiUrl = `https://wiki.play2xko.com/en-us/${fuseFormatted}`;
