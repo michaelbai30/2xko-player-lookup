@@ -82,16 +82,31 @@ function renderMatchCard(match, curPlayer) {
 }
 
 function renderTeam(teamMembers, fuseName) {
-  const membersHTML = (teamMembers || []).map(member => `
-    <div class="character">
+
+  const membersHTML = (teamMembers || []).map(member => {
+
+    // Wiki Example: https://wiki.play2xko.com/en-us/Ahri
+    const wikiURL = `https://wiki.play2xko.com/en-us/${member.charAt(0).toUpperCase() + member.slice(1).toLowerCase()}`
+    return `
+      <div class="character">
+      <a href="${wikiURL}" target="_blank" title="Open ${member} wiki page.">
       <img src="assets/characters/${member.toLowerCase()}.png" alt="${member}" title="${member}">
+      </a>
       <span>${member}</span>
-    </div>
-  `).join("");
-  // "2X Assist" becomes "2x-assist.webp"
+      </div>
+    `;}).join("");
+  
+  
+  // Wiki: "Double Down" -> "Double_Down"
+  const fuseFormatted = fuseName.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join("_");
+  const fuseWikiUrl = `https://wiki.play2xko.com/en-us/${fuseFormatted}`;
+
+  // Asset naming convention: "2X Assist" becomes "2x-assist.webp"
   const fuseHTML = `
     <div class="fuse">
+    <a href="${fuseWikiUrl}" target="_blank" title="Open ${fuseName} wiki page.">
       <img src="assets/fuses/${fuseName.toLowerCase().replace(/\s+/g, "-")}.webp" alt="${fuseName}" title="${fuseName}">
+    </a>
       <span>${fuseName}</span>
     </div>
   `;
