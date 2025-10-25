@@ -12,7 +12,7 @@ If things go well, I intend to deploy this as a website.
 
 The goal of this service is to:
 - Look up a player by Riot ID
-- Display their Win/Loss count and ratio. I'm particularly interested in this since the current early release version of the games doesn't let you see WL ratios.
+- Display their Win/Loss count and ratio. I'm particularly interested in this since the current early release version of the games doesn't show your WL ratios
 - Display their last X matches (ideally for the whole season once the service is scaled)
 - Show each match's details including player names, ranks, teams used, fuses used, winner, and number of rounds played
 
@@ -25,8 +25,8 @@ In the near future:
 
 ## Stack
 
-**Backend**: Java, Spring Boot
-**Frontend**: JS, HTML, CSS
+**Backend**: Java, Spring Boot<br>
+**Frontend**: JS, HTML, CSS<br>
 **Build Tools**: Maven
 
 ---
