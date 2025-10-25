@@ -54,3 +54,79 @@ button:hover {
   margin-top: 1rem;
   text-align: left;
 }
+
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+}
+
+/* Match card */
+.match-card {
+  background-color: #1e1e1e;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.teams {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 10px 0;
+}
+
+.team-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.character, .fuse {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.character img {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.fuse img {
+  width: 32px;
+  height: 32px;
+  margin-top: 4px;
+}
+
+.winner-glow {
+  border: 2px solid gold;
+  box-shadow: 0 0 10px gold;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.vs-text {
+  color: #ccc;
+  font-weight: bold;
+}
+
+.error-box {
+  background-color: #3b1818;
+  border: 1px solid #ff5f5f;
+  padding: 12px;
+  border-radius: 8px;
+  color: #ffbcbc;
+  text-align: center;
+}
