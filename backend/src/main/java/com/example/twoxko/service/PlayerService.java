@@ -11,47 +11,88 @@ import java.time.Instant;
 import java.util.*;
 
 @Service
-public class PlayerService{
-    public PlayerResponse getPlayerByRiotId(String riotId, int matchCount){
-        // Simulate Recent Matches
+public class PlayerService {
 
-        List<Match> matches = Arrays.asList(
+    private static final Map<String, PlayerResponse> MOCK_PLAYERS = new HashMap<>();
+
+    // hardcoding fake match histories before API goes live
+    static {
+        // User 1: SonicFox
+        List<Match> sonicFoxMatches = Arrays.asList(
             new Match(
                 UUID.randomUUID().toString(),
                 Instant.now().minusSeconds(3000),
-                riotId,
-                "Opponent#1234",
-                "Diamond 1",
-                "Platinum 3",
+                "SonicFox",
+                "Leffen",
+                "Challenger",
+                "Diamond 3",
                 Arrays.asList("Ahri", "Ekko"),
-                Arrays.asList("Vi", "Illaoi"),
+                Arrays.asList("Braum", "Teemo"),
                 "Double Down",
                 "2X Assist",
                 3,
                 Winner.P1
             ),
-
             new Match(
                 UUID.randomUUID().toString(),
-                Instant.now().minusSeconds(7000),
-                riotId,
-                "Opponent#5678",
-                "Master 2",
+                Instant.now().minusSeconds(6000),
+                "SonicFox",
+                "Diaphone",
                 "Challenger",
-                Arrays.asList("Warwick", "Ahri"),
-                Arrays.asList("Teemo", "Braum"),
-                "2X Assist",
+                "Platinum 3",
+                Arrays.asList("Ahri", "Ekko"),
+                Arrays.asList("Vi", "Illaoi"),
                 "Double Down",
-                3,
-                Winner.P2
+                "2X Assist",
+                2,
+                Winner.P1
             )
         );
 
-        int wins = (int) matches.stream().filter(m -> m.getWinner() == Winner.P1).count();
-        int losses = matches.size() - wins;
+        int sonicFoxWins = (int) sonicFoxMatches.stream().filter(m -> m.getWinner() == Winner.P1).count();
+        int sonicFoxLosses = sonicFoxMatches.size() - sonicFoxWins;
+        MOCK_PLAYERS.put("SonicFox", new PlayerResponse("SonicFox", sonicFoxWins, sonicFoxLosses, sonicFoxMatches));
 
-        return new PlayerResponse(riotId, wins, losses, matches);
+        // User 2: Leffen
+        List<Match> leffenMatches = Arrays.asList(
+            new Match(
+                UUID.randomUUID().toString(),
+                Instant.now().minusSeconds(5000),
+                "Leffen",
+                "Boosted Bronzie",
+                "Diamond 2",
+                "Bronze 1",
+                Arrays.asList("Jinx", "Yasuo"),
+                Arrays.asList("Vi", "Ekko"),
+                "2X Assist",
+                "Double Down",
+                2,
+                Winner.P1
+            ),
+            new Match(
+                UUID.randomUUID().toString(),
+                Instant.now().minusSeconds(9000),
+                "Leffen",
+                "OppenheimerTeemo",
+                "Diamond 2",
+                "Platinum 1",
+                Arrays.asList("Ahri", "Braum"),
+                Arrays.asList("Warwick", "Teemo"),
+                "2X Assist",
+                "Sidekick",
+                3,
+                Winner.P1
+            )
+        );
 
+        int leffenWins = (int) leffenMatches.stream().filter(m -> m.getWinner() == Winner.P1).count();
+        int leffenLosses = leffenMatches.size() - leffenWins;
+        MOCK_PLAYERS.put("Leffen", new PlayerResponse("Leffen", leffenWins, leffenLosses, leffenMatches));
     }
 
+    // Method that handles lookups
+    // matchCount is how many last X matches we look up. Right now, not in use.
+    public PlayerResponse getPlayerByRiotId(String riotId, int matchCount) {
+        return MOCK_PLAYERS.getOrDefault(riotId, MOCK_PLAYERS.get("SonicFox"));
+    }
 }
