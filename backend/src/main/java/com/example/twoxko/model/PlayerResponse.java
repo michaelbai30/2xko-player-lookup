@@ -9,15 +9,17 @@ public class PlayerResponse{
     private int wins;
     private int losses;
     private double winRate;
+    private double currentElo;
     private List<Match> matches; // last X matches
 
     public PlayerResponse(){};
 
-    public PlayerResponse(String riotId, int wins, int losses, List<Match> matches){
+    public PlayerResponse(String riotId, int wins, int losses, List<Match> matches, double currentElo){
         this.riotId = riotId;
         this.wins = wins;
         this.losses = losses;
         this.matches = matches;
+        this.currentElo = currentElo;
         int total = wins + losses;
         this.winRate = total == 0 ? 0.0 : (double) wins / total;
     }
@@ -33,6 +35,9 @@ public class PlayerResponse{
 
     public double getWinRate(){return this.winRate;}
     public void setWinRate(double winRate) {this.winRate = winRate;}
+
+    public double getCurrentElo(){return this.currentElo;}
+    public void setCurrentElo(double currentElo){this.currentElo = currentElo;}
 
     public List<Match> getMatches(){return this.matches;}
     public void setMatches(List<Match> matches) {this.matches = matches;}
