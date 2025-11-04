@@ -39,6 +39,7 @@ function renderPlayer(player) {
     <p><strong>Wins:</strong> ${player.wins || 0} |
     <strong>Losses:</strong> ${player.losses || 0} |
     <strong>Win Rate:</strong> ${((player.winRate || 0) * 100).toFixed(2)}%</p>
+    <p><strong>Elo:</strong> ${player.currentElo ? player.currentElo.toFixed(2) : "N/A"}</p>
     <h3>Match History</h3>
   `;
 
@@ -62,14 +63,30 @@ function renderMatchCard(match, curPlayer) {
   // "Diamond 3" -> "diamond3"
   const p1RankFormatted = (match.p1Rank || "").split(" ").map(word => word.charAt(0).toLowerCase() + word.slice(1).toLowerCase()).join("");
   const p2RankFormatted = (match.p2Rank || "").split(" ").map(word => word.charAt(0).toLowerCase() + word.slice(1).toLowerCase()).join("");
+
+  var winnerName = "";
+  if (match.winner == "P1"){ winnerName = match.p1RiotId;}
+  else{winnerName = match.p2RiotId;}
+
   return `
     <div class="match-card">
       <p>
         <strong>${match.p1RiotId}</strong>
         <img src="assets/ranks/${p1RankFormatted}.webp" alt="${p1RankFormatted}" title="${p1RankFormatted}">
-        vs
+        <br>
+        <small>
+          Elo: ${match.p1EloBefore?.toFixed(0) || "?"} -> ${match.p1EloAfter?.toFixed(0) || "?"}
+          ${formatEloDelta(match.p1EloBefore, match.p1EloAfter)}
+        </small>
+      </p>
+        <p> vs. </p>
         <strong>${match.p2RiotId}</strong>
         <img src="assets/ranks/${p2RankFormatted}.webp" alt="${p2RankFormatted}" title="${p2RankFormatted}">
+        <br>
+        <small>
+          Elo: ${match.p2EloBefore?.toFixed(0) || "?"} -> ${match.p2EloAfter?.toFixed(0) || "?"}
+          ${formatEloDelta(match.p2EloBefore, match.p2EloAfter)}
+        </small>
       </p>
       <div class="teams">
         <div class="team ${p1Highlight}">
@@ -81,7 +98,7 @@ function renderMatchCard(match, curPlayer) {
         </div>
       </div>
       <p>Rounds: ${match.rounds || "?"}</p>
-      <p><strong>Winner:</strong> ${match.winner || "N/A"}</p>
+      <p><strong>Winner:</strong> ${winnerName || "N/A"}</p>
     </div>
   `;
 }
@@ -120,4 +137,12 @@ function renderTeam(teamMembers, fuseName) {
 
 function showError(msg) {
   playerInfoDiv.innerHTML = `<p style="color: salmon;">${msg}</p>`;
+}
+
+function formatEloDelta(before, after) {
+  if (before == null || after == null) return "";
+  const diff = after - before;
+  const sign = diff > 0 ? "+" : "";
+  const color = diff > 0 ? "lightgreen" : diff < 0 ? "salmon" : "gray";
+  return `<span style="color: ${color};">(${sign}${diff.toFixed(0)})</span>`;
 }
