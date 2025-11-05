@@ -68,39 +68,54 @@ function renderMatchCard(match, curPlayer) {
   if (match.winner == "P1"){ winnerName = match.p1RiotId;}
   else{winnerName = match.p2RiotId;}
 
-  return `
-    <div class="match-card">
-      <p>
-        <strong>${match.p1RiotId}</strong>
-        <img src="assets/ranks/${p1RankFormatted}.webp" alt="${p1RankFormatted}" title="${p1RankFormatted}">
-        <br>
-        <small>
-          Elo: ${match.p1EloBefore?.toFixed(0) || "?"} -> ${match.p1EloAfter?.toFixed(0) || "?"}
-          ${formatEloDelta(match.p1EloBefore, match.p1EloAfter)}
-        </small>
-      </p>
-        <p> vs. </p>
-        <strong>${match.p2RiotId}</strong>
-        <img src="assets/ranks/${p2RankFormatted}.webp" alt="${p2RankFormatted}" title="${p2RankFormatted}">
-        <br>
-        <small>
-          Elo: ${match.p2EloBefore?.toFixed(0) || "?"} -> ${match.p2EloAfter?.toFixed(0) || "?"}
-          ${formatEloDelta(match.p2EloBefore, match.p2EloAfter)}
-        </small>
-      </p>
-      <div class="teams">
-        <div class="team ${p1Highlight}">
-          ${p1TeamHTML}
-        </div>
-        <span class="vs-text">vs.</span>
-        <div class="team ${p2Highlight}">
-          ${p2TeamHTML}
+return `
+  <div class="match-card">
+    <div class="match-header">
+      <div class="player">
+        <div class="player-info">
+          <div class="player-top">
+            <strong class="player-name">${match.p1RiotId}</strong>
+            <img class="rank-icon" src="assets/ranks/${p1RankFormatted}.webp" alt="${p1RankFormatted}" title="${p1RankFormatted}">
+          </div>
+          <div class="elo-line">
+            ${match.p1EloBefore?.toFixed(0) || "?"} → ${match.p1EloAfter?.toFixed(0) || "?"}
+            ${formatEloDelta(match.p1EloBefore, match.p1EloAfter)}
+          </div>
         </div>
       </div>
-      <p>Rounds: ${match.rounds || "?"}</p>
-      <p><strong>Winner:</strong> ${winnerName || "N/A"}</p>
+
+      <div class="vs-container">
+        <span class="vs-text">vs.</span>
+      </div>
+
+      <div class="player">
+        <div class="player-info">
+          <div class="player-top">
+            <strong class="player-name">${match.p2RiotId}</strong>
+            <img class="rank-icon" src="assets/ranks/${p2RankFormatted}.webp" alt="${p2RankFormatted}" title="${p2RankFormatted}">
+          </div>
+          <div class="elo-line">
+            ${match.p2EloBefore?.toFixed(0) || "?"} → ${match.p2EloAfter?.toFixed(0) || "?"}
+            ${formatEloDelta(match.p2EloBefore, match.p2EloAfter)}
+          </div>
+        </div>
+      </div>
     </div>
-  `;
+
+    <div class="teams">
+      <div class="team ${p1Highlight}">
+        ${p1TeamHTML}
+      </div>
+      <span class="vs-text team-vs">vs.</span>
+      <div class="team ${p2Highlight}">
+        ${p2TeamHTML}
+      </div>
+    </div>
+
+    <p>Rounds: ${match.rounds || "?"}</p>
+    <p><strong>Winner:</strong> ${winnerName || "N/A"}</p>
+  </div>
+`; 
 }
 
 function renderTeam(teamMembers, fuseName) {
