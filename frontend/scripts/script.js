@@ -101,7 +101,7 @@ return `
         </div>
       </div>
     </div>
-
+    <br>
     <div class="teams">
       <div class="team ${p1Highlight}">
         ${p1TeamHTML}
