@@ -8,7 +8,8 @@ const lookupBtn = document.getElementById("lookupBtn");
 const riotIdInput = document.getElementById("riotIdInput");
 const playerInfoDiv = document.getElementById("playerInfo");
 
-// when you click the button
+// when button is clicked, read value from riot id input
+// and call fetchPlayer
 lookupBtn.addEventListener("click", () => {
   const riotId = riotIdInput.value.trim();
   if (!riotId) {
@@ -19,19 +20,24 @@ lookupBtn.addEventListener("click", () => {
   fetchPlayer(riotId);
 });
 
+// render player by riotId
 async function fetchPlayer(riotId) {
   try {
+    // send HTTP get request to the API URL
     const res = await fetch(`${API_BASE}/${riotId}?last=50`);
     if (!res.ok) {
       throw new Error("Player not found");
     }
+    // parse the JSON component to data
     const data = await res.json();
     renderPlayer(data);
-  } catch (error) {
+  } 
+  catch (error) {
     showError(error.message);
   }
 }
 
+// construct player and match history HTML
 function renderPlayer(player) {
   const matches = player.matches || [];
   let html = `
@@ -46,13 +52,14 @@ function renderPlayer(player) {
   if (matches.length === 0) {
     html += `<p>No matches found.</p>`;
   } else {
+    // for each match in matches, render a matchcard and join to existing HTML
     html += matches.map(match => renderMatchCard(match, player.riotId)).join("");
   }
   playerInfoDiv.innerHTML = html;
 }
 
 // match card contains info about player names, ranks, teams, fuses, winner, and num rounds
-function renderMatchCard(match, curPlayer) {
+function renderMatchCard(match) {
   const p1TeamHTML = renderTeam(match.p1Team, match.p1Fuse);
   const p2TeamHTML = renderTeam(match.p2Team, match.p2Fuse);
 
@@ -119,10 +126,9 @@ return `
 }
 
 function renderTeam(teamMembers, fuseName) {
-
   const membersHTML = (teamMembers || []).map(member => {
 
-    // Wiki Example: https://wiki.play2xko.com/en-us/Ahri
+    // Wiki URL Format Example: https://wiki.play2xko.com/en-us/Ahri
     const wikiURL = `https://wiki.play2xko.com/en-us/${member.charAt(0).toUpperCase() + member.slice(1).toLowerCase()}`
     return `
       <div class="character">
@@ -133,7 +139,7 @@ function renderTeam(teamMembers, fuseName) {
       </div>
     `;}).join("");
 
-  // Wiki: "Double Down" -> "Double_Down"
+  // Wiki URL Format Example: "Double Down" -> "Double_Down"
   const fuseFormatted = fuseName.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join("_");
   const fuseWikiUrl = `https://wiki.play2xko.com/en-us/${fuseFormatted}`;
 

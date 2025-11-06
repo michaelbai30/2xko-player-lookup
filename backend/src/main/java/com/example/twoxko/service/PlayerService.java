@@ -15,8 +15,8 @@ import java.util.*;
 public class PlayerService{
 
     private static final Map<String, Double> RANK_TO_ELO_BASE = new HashMap<>();
-    private static final Map<String, PlayerResponse> MOCK_PLAYERS = new HashMap<>();
-    private static final Map<String, Double> MOCK_PLAYER_ELOS = new HashMap<>();
+    private static final Map<String, PlayerResponse> PLAYERS = new HashMap<>();
+    private static final Map<String, Double> PLAYER_ELOS = new HashMap<>();
 
     static {
         // Rank to Elo Base Table
@@ -127,11 +127,11 @@ public class PlayerService{
         );
 
         //Seed Base Elos for mock players
-        MOCK_PLAYER_ELOS.put("SonicFox", getEloFromRank("Challenger"));
-        MOCK_PLAYER_ELOS.put("Leffen", getEloFromRank("Challenger"));
-        MOCK_PLAYER_ELOS.put("Diaphone", getEloFromRank("Platinum 3"));
-        MOCK_PLAYER_ELOS.put("Boosted Bronzie", getEloFromRank("Bronze 1"));
-        MOCK_PLAYER_ELOS.put("OppenheimerTeemo", getEloFromRank("Platinum 1"));
+        PLAYER_ELOS.put("SonicFox", getEloFromRank("Challenger"));
+        PLAYER_ELOS.put("Leffen", getEloFromRank("Challenger"));
+        PLAYER_ELOS.put("Diaphone", getEloFromRank("Platinum 3"));
+        PLAYER_ELOS.put("Boosted Bronzie", getEloFromRank("Bronze 1"));
+        PLAYER_ELOS.put("OppenheimerTeemo", getEloFromRank("Platinum 1"));
 
         // Simulate elo progression over match history
        sonicFoxMatches.forEach(PlayerService::simulateEloUpdate);
@@ -140,33 +140,34 @@ public class PlayerService{
         // Count WL and build responses
         int sonicFoxWins = (int) sonicFoxMatches.stream().filter(m -> m.getWinner() == Winner.P1).count();
         int sonicFoxLosses = sonicFoxMatches.size() - sonicFoxWins;
-        MOCK_PLAYERS.put("SonicFox",
+        PLAYERS.put("SonicFox",
             new PlayerResponse(
                 "SonicFox",
                 sonicFoxWins,
                 sonicFoxLosses,
                 sonicFoxMatches,
-                MOCK_PLAYER_ELOS.get("SonicFox")
+                PLAYER_ELOS.get("SonicFox")
             )
         );
 
         int leffenWins = (int) leffenMatches.stream().filter(m -> m.getWinner() == Winner.P1).count();
         int leffenLosses = leffenMatches.size() - leffenWins;
-        MOCK_PLAYERS.put("Leffen",
+        PLAYERS.put("Leffen",
             new PlayerResponse(
                 "Leffen",
                 leffenWins,
                 leffenLosses,
                 leffenMatches,
-                MOCK_PLAYER_ELOS.get("Leffen")
+                PLAYER_ELOS.get("Leffen")
             )
         );
     }
 
     // ---API METHOD---
     // matchCount = how many last X matches to fetch (currently unused)
+    // called by PlayerController.java
     public PlayerResponse getPlayerByRiotId(String riotId, int matchCount) {
-        return MOCK_PLAYERS.getOrDefault(riotId, MOCK_PLAYERS.get("SonicFox"));
+        return PLAYERS.getOrDefault(riotId, PLAYERS.get("SonicFox"));
     }
 
     // --- HELPER METHODS ---
@@ -179,19 +180,19 @@ public class PlayerService{
         String p2 = match.getP2RiotId();
 
         // if a new player is detected
-        MOCK_PLAYER_ELOS.putIfAbsent(p1, getEloFromRank(match.getP1Rank()));
-        MOCK_PLAYER_ELOS.putIfAbsent(p2, getEloFromRank(match.getP2Rank()));
+        PLAYER_ELOS.putIfAbsent(p1, getEloFromRank(match.getP1Rank()));
+        PLAYER_ELOS.putIfAbsent(p2, getEloFromRank(match.getP2Rank()));
 
-        double p1EloBefore = MOCK_PLAYER_ELOS.get(p1);
-        double p2EloBefore = MOCK_PLAYER_ELOS.get(p2);
+        double p1EloBefore = PLAYER_ELOS.get(p1);
+        double p2EloBefore = PLAYER_ELOS.get(p2);
 
         boolean p1Win = (match.getWinner() == Winner.P1);
 
         double newP1Elo = EloCalculator.updateRating(p1EloBefore, p2EloBefore, p1Win);
         double newP2Elo = EloCalculator.updateRating(p2EloBefore, p1EloBefore, !p1Win);
 
-        MOCK_PLAYER_ELOS.put(p1, newP1Elo);
-        MOCK_PLAYER_ELOS.put(p2, newP2Elo); 
+        PLAYER_ELOS.put(p1, newP1Elo);
+        PLAYER_ELOS.put(p2, newP2Elo); 
         match.setEloSnapshots(p1EloBefore, newP1Elo, p2EloBefore, newP2Elo);
     }
 }

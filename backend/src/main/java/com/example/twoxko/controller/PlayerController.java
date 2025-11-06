@@ -17,9 +17,11 @@ public class PlayerController{
         this.playerService = playerService;
     }
 
-    // create url at /api/players/{riotId}
+    // handles the API endpoint at /api/players/{riotId}
     @GetMapping("/{riotId}")
     public PlayerResponse getPlayer(@PathVariable String riotId, @RequestParam(defaultValue = "50") int last) {
+        // send back player info
+        // automatically serialized and converted to json
         return playerService.getPlayerByRiotId(riotId, last);
     }
 }
