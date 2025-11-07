@@ -79,7 +79,7 @@ return `
   <div class="match-card">
     <div class="match-header">
       <div class="player">
-        <div class="player-info">
+        <div class="player-info ${p1Highlight}">
           <div class="player-top">
             <strong class="player-name">${match.p1RiotId}</strong>
             <img class="rank-icon" src="assets/ranks/${p1RankFormatted}.webp" alt="${p1RankFormatted}" title="${p1RankFormatted}">
@@ -96,7 +96,7 @@ return `
       </div>
 
       <div class="player">
-        <div class="player-info">
+        <div class="player-info ${p2Highlight}">
           <div class="player-top">
             <strong class="player-name">${match.p2RiotId}</strong>
             <img class="rank-icon" src="assets/ranks/${p2RankFormatted}.webp" alt="${p2RankFormatted}" title="${p2RankFormatted}">
@@ -110,11 +110,11 @@ return `
     </div>
     <br>
     <div class="teams">
-      <div class="team ${p1Highlight}">
+      <div class="team">
         ${p1TeamHTML}
       </div>
       <span class="vs-text team-vs">vs.</span>
-      <div class="team ${p2Highlight}">
+      <div class="team">
         ${p2TeamHTML}
       </div>
     </div>
