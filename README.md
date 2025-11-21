@@ -1,5 +1,7 @@
 # 2XKO Player Lookup Service
 
+## NOTE: HEAVY WIP
+
 A **player lookup service** for Riot Games’ upcoming fighting game based on the League of Legends universe **2XKO**.  
 Since the official Riot API isn’t publicly available yet, this project currently uses **mock data** to simulate player stats, matches, and win/loss ratios.
 Once the API is released, this backend will connect directly to Riot’s official endpoints to provide real player data.
